@@ -1,0 +1,176 @@
+import streamlit as st
+
+st.set_page_config(
+    page_title="WDM Simulator",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    )
+
+st.markdown(
+    """
+    <style>
+    /* ---------- HEADER ---------- */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 110px;                 /* Reduced height */
+        padding-top: 52px;
+        background-color: #08f1e4;
+        color: white;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-title {
+        font-size: 28px;
+        font-weight: 900;        
+        color: black;
+    }
+
+    /* ---------- MAIN APP OFFSET ---------- */
+    .stApp {
+        margin-top: 110px;            /* Push content below header */
+        padding-bottom: 70px;         /* Avoid footer overlap */
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 42px;
+        background-color: #08f1e4;
+        color: black;
+        text-align: center;
+        padding-top: 10px;
+        font-size: 14px;
+        z-index: 1000;
+    }
+    </style>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-title">
+            Wavelength Division Multiplexing Simulation
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Developed by Dev Team 
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <style>
+    div.stLinkButton > a {
+        display: block;
+        margin: auto;
+        border: 2px solid black;         
+        border-radius: 10px;
+        background-color: #08f1e4;
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True)
+
+st.title("Docs", text_alignment="center")
+
+st.divider()
+
+st.markdown("""
+## 1. NORMAL MODE
+
+### Input (Auto-filled)
+- Channels (n) = **8**
+- Spacing = **100 GHz**
+- Bitrate = **10 Gbps**
+- Length = **50 km**
+- Attenuation = **0.2 dB/km**
+- Power = **0 dBm**
+- Dispersion = **17 ps/nm/km**
+- Center wavelength = **1550 nm**
+
+### Output
+- **Total Capacity** = 8 × 10 = **80 Gbps**
+- **Fiber Loss** = 0.2 × 50 = **10 dB**
+- **Received Power** = 0 − 10 = **−10 dBm**
+
+### Graph Behavior
+- Input Spectrum → 8 wavelength spikes (0.8 nm spacing)
+- Signal in Fiber → Slight attenuation
+- Power vs Distance → Linear decrease (0 to −10 dBm)
+- Output Spectrum → Slightly reduced amplitude
+
+---
+
+## 2. LONG DISTANCE MODE
+
+### Input
+- Channels = **8**
+- Spacing = **100 GHz**
+- Bitrate = **10 Gbps**
+- Length = **150 km**
+- Attenuation = **0.25 dB/km**
+- Power = **0 dBm**
+
+### Output
+- **Capacity** = **80 Gbps**
+- **Loss** = 0.25 × 150 = **37.5 dB**
+- **Received Power** = **−37.5 dBm**
+
+### Graph Behavior
+- Input Spectrum → Same as Normal
+- Signal in Fiber → More spreading + high attenuation
+- Power vs Distance → Steep drop
+- Output Spectrum → Very weak signals
+
+---
+
+## 3. HIGH CAPACITY MODE
+
+### Input
+- Channels = **16**
+- Spacing = **50 GHz**
+- Bitrate = **40 Gbps**
+- Length = **80 km**
+- Attenuation = **0.25 dB/km**
+- Power = **5 dBm**
+
+### Output
+- **Capacity** = 16 × 40 = **640 Gbps**
+- **Loss** = 0.25 × 80 = **20 dB**
+- **Received Power** = **−15 dBm**
+
+### Graph Behavior
+- Input Spectrum → 16 dense channels (0.4 nm spacing)
+- Signal in Fiber → Overlapping signals
+- Power vs Distance → Moderate drop
+- Output Spectrum → Dense but attenuated
+
+---
+
+## 4. CUSTOM MODE
+
+### Input
+- User-defined values
+
+### Output
+- Capacity = n × bitrate  
+- Loss = att × length  
+- Received Power = power − loss  
+
+### Graph Behavior
+- Fully dynamic based on input
+
+""")
+

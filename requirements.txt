@@ -1,0 +1,4 @@
+stereamlit
+numpy
+matplotlib
+scipy
