@@ -1,4 +1,4 @@
-stereamlit
+streamlit
 numpy
 matplotlib
 scipy
