@@ -16,7 +16,7 @@ It provides both **educational insight** and **practical experimentation**.
 
 ![Project_Preview_1](media/proj_preview_1.png)
 
-![Project_Preview_2](media/proj_preview_1.png)
+![Project_Preview_2](media/proj_preview_2.png)
 
 ---
 
