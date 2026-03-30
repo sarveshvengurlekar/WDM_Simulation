@@ -1,4 +1,4 @@
-# Wavelength Division Multiplexing (WDM) Simulator
+# Wavelength Division Multiplexing (WDM) Simulation
 
 An interactive **web-based WDM simulator** built using Streamlit that helps visualize and analyze optical fiber communication systems.
 
