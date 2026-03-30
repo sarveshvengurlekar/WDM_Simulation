@@ -2,102 +2,126 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 st.set_page_config(
     page_title="WDM Simulator",
     layout="wide",
     initial_sidebar_state="expanded",
-    )
-
-st.markdown(
-    """
-    <style>
-    /* ---------- HEADER ---------- */
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 110px;                 /* Reduced height */
-        padding-top: 52px;
-        background-color: #08f1e4;
-        color: white;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .header-title {
-        font-size: 28px;
-        font-weight: 900;        
-        color: black;
-    }
-
-    /* ---------- MAIN APP OFFSET ---------- */
-    .stApp {
-        margin-top: 110px;            /* Push content below header */
-        padding-bottom: 70px;         /* Avoid footer overlap */
-    }
-
-    /* ---------- FOOTER ---------- */
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 42px;
-        background-color: #08f1e4;
-        color: black;
-        text-align: center;
-        padding-top: 10px;
-        font-size: 14px;
-        z-index: 1000;
-    }
-    </style>
-
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-title">
-            Wavelength Division Multiplexing Simulation
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-        Developed by Dev Team 
-    </div>
-    """,
-    unsafe_allow_html=True
 )
 
-st.markdown(
-    """
-    <style>
-    div.stLinkButton > a {
-        display: block;
-        margin: auto;
-        border: 2px solid black;         
-        border-radius: 10px;
-        background-color: #08f1e4;
-        text-align: center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True)
+# ---------------- UI STYLING ---------------- #
+st.markdown("""
+<style>
 
-st.title("📡 Wavelength Division Multiplexing Simulator", text_alignment="center")
+/* ---------- REMOVE DEFAULT SPACING ---------- */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
+.block-container {
+    padding-top: 0rem !important;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+    color: white;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* ---------- MAIN OFFSET ---------- */
+.stApp {
+    margin-top: 90px;
+    padding-bottom: 120px;   /* prevents footer overlap */
+}
+
+/* ---------- SIDEBAR ---------- */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+    color: white;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #f1f1f1 !important;
+}
+
+/* ---------- BUTTON ---------- */
+.stButton > button {
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0f2027, #2c5364) !important;
+    color: white !important;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+
+/* ---------- METRICS ---------- */
+[data-testid="metric-container"] {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+/* ---------- FOOTER (NO OVERLAP) ---------- */
+.footer {
+    position: relative;
+    width: 100%;
+    background: #0f2027;
+    color: #bbb;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+}
+
+/* ---------- TITLE ---------- */
+h1 {
+    text-align: center;
+}
+
+/* Hide default Streamlit header */
+header {
+    display: none !important;
+}
+
+</style>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">
+        📡 WDM Optical Network Simulator
+    </div>
+</div>
+
+""", unsafe_allow_html=True)
+
+# ---------------- TITLE ---------------- #
+st.title("📡 Wavelength Division Multiplexing Simulator")
 st.divider()
 
-# ---------------- SIDEBAR INPUT ---------------- #
+# ---------------- INPUT ---------------- #
 st.header("Input Parameters")
 
-
-# Presets
 preset = st.segmented_control(
     "Distance Mode",
-    ["Normal", "Long Distance", "High Capacity", "Custom",], width="stretch")
+    ["Normal", "Long Distance", "High Capacity", "Custom"],
+    width="stretch"
+)
 
 def load_preset(preset):
     if preset == "Normal":
@@ -113,7 +137,6 @@ n, spacing, bitrate, length, att, power, disp, center = load_preset(preset)
 
 col1, col2 = st.columns(2)
 
-
 with col2:
     n = st.number_input("Number of Channels", value=n)
     spacing = st.number_input("Channel Spacing (GHz)", value=spacing)
@@ -126,13 +149,11 @@ with col1:
     disp = st.number_input("Dispersion (ps/nm/km)", value=disp)
     center = st.number_input("Center Wavelength (nm)", value=center)
 
-run = st.button("Run Simulation", use_container_width=True, type="primary")
+run = st.button("Run Simulation", width="stretch")
 
-
-# ---------------- MAIN OUTPUT ---------------- #
+# ---------------- OUTPUT ---------------- #
 if run:
     try:
-        # Calculations
         capacity = n * bitrate
         loss = att * length
         recv = power - loss
@@ -140,41 +161,37 @@ if run:
         wl_spacing = 0.8 if spacing == 100 else 0.4
         wavelengths = [center + (i - n//2) * wl_spacing for i in range(int(n))]
 
-        # ---------------- RESULTS ---------------- #
         st.divider()
-        st.header("📊 Results")
+        st.header("Results")
 
         col1, col2, col3 = st.columns(3)
         col1.metric("Total Capacity (Gbps)", capacity)
         col2.metric("Fiber Loss (dB)", round(loss, 2))
         col3.metric("Received Power (dBm)", round(recv, 2))
 
-        # ---------------- GRAPHS ---------------- #
+        # -------- GRAPHS -------- #
         fig, axs = plt.subplots(2, 2, figsize=(10, 6))
 
-        # Spectrum
         axs[0, 0].stem(wavelengths, [1]*int(n))
         axs[0, 0].set_title("Input Spectrum")
 
-        # Signal propagation
         x = np.linspace(0, length, 200)
         for i in range(min(int(n), 5)):
             y = np.exp(-((x-(i*10))**2)/50)*np.exp(-0.02*x)
             axs[0, 1].plot(x, y)
         axs[0, 1].set_title("Signal in Fiber")
 
-        # Power decay
         dist = np.linspace(0, length, 50)
         p = power - att*dist
         axs[1, 0].plot(dist, p)
         axs[1, 0].set_title("Power vs Distance")
 
-        # Output spectrum
         axs[1, 1].stem(wavelengths, [np.exp(-0.02*length)]*int(n))
         axs[1, 1].set_title("Output Spectrum")
 
         plt.tight_layout()
         st.pyplot(fig)
 
-    except Exception as e:
+    except:
         st.error("Invalid Input")
+

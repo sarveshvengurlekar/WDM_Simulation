@@ -6,83 +6,103 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     )
 
-st.markdown(
-    """
-    <style>
-    /* ---------- HEADER ---------- */
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 110px;                 /* Reduced height */
-        padding-top: 52px;
-        background-color: #08f1e4;
-        color: white;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+# ---------------- UI STYLING ---------------- #
+st.markdown("""
+<style>
 
-    .header-title {
-        font-size: 28px;
-        font-weight: 900;        
-        color: black;
-    }
+/* ---------- REMOVE DEFAULT SPACING ---------- */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
-    /* ---------- MAIN APP OFFSET ---------- */
-    .stApp {
-        margin-top: 110px;            /* Push content below header */
-        padding-bottom: 70px;         /* Avoid footer overlap */
-    }
+.block-container {
+    padding-top: 0rem !important;
+}
 
-    /* ---------- FOOTER ---------- */
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 42px;
-        background-color: #08f1e4;
-        color: black;
-        text-align: center;
-        padding-top: 10px;
-        font-size: 14px;
-        z-index: 1000;
-    }
-    </style>
+/* ---------- HEADER ---------- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+    color: white;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-title">
-            Wavelength Division Multiplexing Simulation
-        </div>
+.header-title {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* ---------- MAIN OFFSET ---------- */
+.stApp {
+    margin-top: 90px;
+    padding-bottom: 120px;   /* prevents footer overlap */
+}
+
+/* ---------- SIDEBAR ---------- */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+    color: white;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #f1f1f1 !important;
+}
+
+/* ---------- BUTTON ---------- */
+.stButton > button {
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+}
+
+/* ---------- METRICS ---------- */
+[data-testid="metric-container"] {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+/* ---------- FOOTER (NO OVERLAP) ---------- */
+.footer {
+    position: relative;
+    width: 100%;
+    background: #0f2027;
+    color: #bbb;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+}
+
+/* ---------- TITLE ---------- */
+h1 {
+    text-align: center;
+}
+
+/* Hide default Streamlit header */
+header {
+    display: none !important;
+}
+
+</style>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">
+        📡 WDM Optical Network Simulator
     </div>
+</div>
 
-    <!-- FOOTER -->
-    <div class="footer">
-        Developed by Dev Team 
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <style>
-    div.stLinkButton > a {
-        display: block;
-        margin: auto;
-        border: 2px solid black;         
-        border-radius: 10px;
-        background-color: #08f1e4;
-        text-align: center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 st.title("Theory", text_alignment="center")
 
@@ -99,7 +119,7 @@ By assigning each data signal to a specific wavelength, WDM effectively turns a 
 # ---------------- WDM WORKING ---------------- #
 st.markdown("## WDM Working")
 
-st.image("media/WDM_operating_principle.png", use_container_width=True)
+st.image("media/WDM_operating_principle.png", width="stretch")
 
 st.markdown("""
 ### 1. Signal Generation (Transponders TP1–TP4)
